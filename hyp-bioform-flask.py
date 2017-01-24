@@ -21,9 +21,9 @@ def home():
 #     response.headers["Content-Disposition"] = "attachment; filename=result.csv"
 #     return response
 
-def format_response(response):
+def format_response(response, name):
     response.headers["Content-type"] = "text/csv"
-    response.headers["Content-Disposition"] = "attachment; filename=bioforms.csv"
+    response.headers["Content-Disposition"] = "attachment; filename={}.csv".format(name)
     response.headers["Pragma"] = "no-cache"
     response.headers["Expires"] = "0"
     return response
@@ -35,7 +35,7 @@ def get_senior_csv():
 
     response = make_response(result)
     
-    return format_response(response)
+    return format_response(response, 'bioforms')
 
 @app.route('/groups')
 def get_groups_csv():
@@ -44,7 +44,7 @@ def get_groups_csv():
 
     response = make_response(result)
 
-    return format_response(response)
+    return format_response(response, 'groups')
 
 @app.route('/profs')
 def get_profs_csv():
@@ -52,7 +52,7 @@ def get_profs_csv():
     result = hypbioform.get_profs()
 
     response = make_response(result)
-    return format_response(response)
+    return format_response(response, 'profs')
 
 @app.route('/prof_counts')
 def get_prof_counts_csv():
@@ -61,7 +61,7 @@ def get_prof_counts_csv():
 
     response = make_response(result)
     
-    return format_response(response)
+    return format_response(response, 'prof_counts')
 
 if __name__ == '__main__':
    app.run(debug=False)       

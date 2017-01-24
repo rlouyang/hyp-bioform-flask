@@ -21,17 +21,21 @@ def home():
 #     response.headers["Content-Disposition"] = "attachment; filename=result.csv"
 #     return response
 
+def format_response(response):
+    response.headers["Content-type"] = "text/csv"
+    response.headers["Content-Disposition"] = "attachment; filename=bioforms.csv"
+    response.headers["Pragma"] = "no-cache"
+    response.headers["Expires"] = "0"
+    return response
+
 @app.route('/seniors')
 def get_senior_csv():
     # result = get_senior()
     result = hypbioform.get_seniors()
 
     response = make_response(result)
-    response.headers["Content-Disposition"] = "attachment; filename=bioforms.csv"
-    response.headers["Cache-Control"] = "must-revalidate"
-    response.headers["Pragma"] = "must-revalidate"
-    response.headers["Content-type"] = "application/csv"
-    return response
+    
+    return format_response(response)
 
 @app.route('/groups')
 def get_groups_csv():
@@ -39,11 +43,8 @@ def get_groups_csv():
     result = hypbioform.get_groups()
 
     response = make_response(result)
-    response.headers["Content-Disposition"] = "attachment; filename=groups.csv"
-    response.headers["Cache-Control"] = "must-revalidate"
-    response.headers["Pragma"] = "must-revalidate"
-    response.headers["Content-type"] = "application/csv"
-    return response
+
+    return format_response(response)
 
 @app.route('/profs')
 def get_profs_csv():
@@ -51,11 +52,7 @@ def get_profs_csv():
     result = hypbioform.get_profs()
 
     response = make_response(result)
-    response.headers["Content-Disposition"] = "attachment; filename=profs.csv"
-    response.headers["Cache-Control"] = "must-revalidate"
-    response.headers["Pragma"] = "must-revalidate"
-    response.headers["Content-type"] = "application/csv"
-    return response
+    return format_response(response)
 
 @app.route('/prof_counts')
 def get_prof_counts_csv():
@@ -63,11 +60,8 @@ def get_prof_counts_csv():
     result = hypbioform.get_prof_counts()
 
     response = make_response(result)
-    response.headers["Content-Disposition"] = "attachment; filename=prof_counts.csv"
-    response.headers["Cache-Control"] = "must-revalidate"
-    response.headers["Pragma"] = "must-revalidate"
-    response.headers["Content-type"] = "application/csv"
-    return response 
+    
+    return format_response(response)
 
 if __name__ == '__main__':
    app.run(debug=False)       

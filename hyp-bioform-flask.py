@@ -30,37 +30,26 @@ def format_response(response, name):
 
 @app.route('/seniors')
 def get_senior_csv():
-    # result = get_senior()
     result = hypbioform.get_seniors()
-
-    response = make_response(result)
-    
+    response = make_response(result)    
     return format_response(response, 'bioforms')
 
 @app.route('/groups')
 def get_groups_csv():
-    # result = get_senior()
     result = hypbioform.get_groups()
-
     response = make_response(result)
-
     return format_response(response, 'groups')
 
 @app.route('/profs')
 def get_profs_csv():
-    # result = get_senior()
     result = hypbioform.get_profs()
-
     response = make_response(result)
     return format_response(response, 'profs')
 
 @app.route('/prof_counts')
 def get_prof_counts_csv():
-    # result = get_senior()
     result = hypbioform.get_prof_counts()
-
     response = make_response(result)
-    
     return format_response(response, 'prof_counts')
 
 if __name__ == '__main__':

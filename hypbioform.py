@@ -83,7 +83,7 @@ def get_bio_string(row):
                 ec_str += element + '. '
         ec_str = remove_brackets(ec_str)
         bio += ec_str
-    return bio
+    return bio[:525]
 
 def get_senior_info(row):
     new_info = [get_full_name(row), 
@@ -113,7 +113,7 @@ def format_officers(row):
 
 def get_groups_info(row):
     new_info = [row['Group Name'], 
-                row['Organization Description'], 
+                row['Organization Description'][:750], 
                 format_officers(row),
                 row['Submission Date']
                ]

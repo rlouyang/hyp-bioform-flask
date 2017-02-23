@@ -84,7 +84,7 @@ def get_bio_string(row):
                 .replace(' [PBHA]', '') 
                 for element in ec
                 if '[PBHA]' in element]
-        pbha = [element.replace(' (', ': ') + ';' for element in pbha]
+        pbha = [element.replace(' (', ': ') + ',' for element in pbha]
         pbha = 'Phillips Brooks House Association (' + ' '.join(pbha)[:-1] + '). '
 
         ec_str = ''

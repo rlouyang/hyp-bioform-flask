@@ -15,9 +15,14 @@ payload = {
     }
 
 #### SENIORS ####
-'''removes extracurriculars with brackets in their name (from OSL list on Drive)'''
+'''removes extracurriculars with brackets in their name (e.g. Harvard Yearbook Publications [HYP])'''
 def remove_brackets(string):
     return re.sub('[ ][\[].*?[\]]', '', string)
+
+def title(str):
+	str = str.title()
+	for word in ['and', 'the', 'in', 'of', 'on', 'at', 'by', 'to', 'off', 'for', 'between', 'with', 'through', 'out', 'a', 'an']:
+		str = str.replace(' %s ' %word.capitalize(), ' %s ' %word)
 
 def get_full_name(row):
     full_name = row['First Name'] + ' '
@@ -37,11 +42,11 @@ def get_bio_string(row):
         bio += 'Born on: ' + birthdate + '. '
 
     if row['Secondary School Name'] != '':
-        bio += 'Secondary School: ' + row['Secondary School Name'].title() + '. '
+        bio += 'Secondary School: ' + title(row['Secondary School Name']) + '. '
 
     # if need to automatically capitalize, then str.title() will work
     if row['Town/City'] != '': 
-        bio += 'Hometown: ' + row['Town/City'].title() + ', ' + row['State/Province'] + row['Country'] + '. '
+        bio += 'Hometown: ' + title(row['Town/City']) + ', ' + row['State/Province'] + row['Country'] + '. '
 
     # could be done more efficiently but whatever
     bio += 'Concentration: ' 
@@ -74,12 +79,12 @@ def get_bio_string(row):
 
         for i in xrange(0, len(ec_list), 2):
             if ec_list[i] and ec_list[i + 1]:
-                ec.append(ec_list[i] + ' (' + ec_list[i + 1] + ')')
+                ec.append(ec_list[i] + ' (' + title(ec_list[i + 1]) + ')')
             elif ec_list[i]:
                 ec.append(ec_list[i])
 
         # PBHA processing
-        pbha = [element.replace('Phillips Brooks House Association (', '')
+        pbha = [element.replace('PBHA (', '')
                 .replace(')', '')
                 .replace(' [PBHA]', '') 
                 for element in ec
@@ -128,7 +133,7 @@ def download_seniors():
     seniors = seniors.fillna('')
 
     # strip all leading and trailing whitespace
-    seniors = seniors.applymap(lambda x: x.strip())
+    seniors = seniors.applymap(lambda x: x.strip('. '))
 
     # drop all the yes/no stuff
     seniors = seniors.select(lambda x: 'Are you in' not in x, axis=1)
@@ -152,7 +157,7 @@ def format_officers(row):
     officers = []
     for i in xrange(0, len(officer_list), 2):
         if officer_list[i] and officer_list[i + 1]:
-            officers.append(officer_list[i] + ': ' + officer_list[i + 1] + '; ')
+            officers.append(title(officer_list[i]) + ': ' + title(officer_list[i + 1]) + '; ')
     
     return ''.join(officers)[:-2]
 
@@ -195,7 +200,7 @@ def process_profs():
     profs.columns = ['first_name', 'last_name', 'email', 'dept']
 
     # omit everyone who skipped the question
-    to_omit = ['', 'n/a', 'omit', ' ', '  ', '.', '-', 'x', 'na', 'a', 'asdf', 'X', 'first', 'First']
+    to_omit = ['', 'n/a', 'omit', ' ', '  ', '.', '-', 'x', 'na', 'a', 'asdf', 'X', 'first', 'First', 'no', 'No']
     profs = profs.applymap(lambda x : np.nan if x in to_omit else x).dropna()
 
     # sort alphabetically

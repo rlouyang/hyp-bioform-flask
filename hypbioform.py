@@ -76,7 +76,9 @@ def get_bio_string(row):
     if row['Town/City'] != '': 
         if row['Town/City'].lower() in ['new york city', 'ny', 'nyc']:
             row['Town/City'] = 'New York'
-        bio += 'Hometown: ' + title(row['Town/City']) + ', ' + row['State/Territory'] + row['Country'] + '. '
+        if row['Country'].lower() in ['u.k.', 'uk', 'northern ireland', 'scotland', 'wales', 'england']:
+            row['Country'] = 'United Kingdom'
+        bio += 'Hometown: ' + title(row['Town/City']) + ', ' + row['State/Territory'] + title(row['Country']) + '. '
 
     # could be done more efficiently but whatever
     bio += 'Concentration: ' 

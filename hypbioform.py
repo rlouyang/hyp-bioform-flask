@@ -14,23 +14,33 @@ payload = {
         '_password': os.environ['TYPEFORM_PASSWORD']
     }
 
+houses = ['Adams', 'Cabot', 'Currier', 'Dudley', 'Dunster', 'Eliot', 'Kirkland',
+          'Leverett', 'Lowell', 'Mather', 'Pforzheimer', 'Quincy', 'Winthrop']
+
 #### SENIORS ####
 '''removes extracurriculars with brackets in their name (e.g. Harvard Yearbook Publications [HYP])'''
 def remove_brackets(string):
     return re.sub('[ ][\[].*?[\]]', '', string)
 
-def title(str):
-	str = str.title()
+def title(string):
+	string = string.title()
 	for word in ['and', 'the', 'in', 'of', 'on', 'at', 'by', 'to', 'off', 'for', 'between', 'with', 'through', 'out', 'a', 'an']:
-		str = str.replace(' %s ' %word.capitalize(), ' %s ' %word)
+		string = string.replace(' %s ' %word.capitalize(), ' %s ' %word)
+    return string
 
 def get_full_name(row):
-    full_name = row['First Name'] + ' '
+    full_name = row['First Name'].title() + ' '
     if row['Middle Name'] != '':
-        full_name += row['Middle Name'] + ' '
+        if len(row['Middle Name']) == 1:
+            full_name += row['Middle Name'] + '. '
+        else:
+            full_name += row['Middle Name'] + ' '
     full_name += row['Last Name']
     if row['Suffix'] != '':
-        full_name += ', ' + row['Suffix']
+        if 'J' in row['Suffix']:
+            full_name += ', Jr.'# + row['Suffix']
+        else:
+            full_name += row['Suffix']
     return full_name   
 
 def get_bio_string(row):
@@ -42,10 +52,30 @@ def get_bio_string(row):
         bio += 'Born on: ' + birthdate + '. '
 
     if row['Secondary School Name'] != '':
-        bio += 'Secondary School: ' + title(row['Secondary School Name']) + '. '
+        schoolname = row['Secondary School Name']
+        # bunch of rules
+        if schoolname.startswith('The '):
+            schoolname = schoolname.replace('The ', '')
+        schoolname = schoolname.replace(' Junior High School', ' High School')
+        schoolname = schoolname.replace(' Senior High School', ' High School')
+        schoolname = schoolname.replace(' Senior High School', ' High School')
+        schoolname = schoolname.replace('Saint ', 'St. ')
+        schoolname = schoolname.replace('Mount ', 'Mt. ')
+        schoolname = schoolname.replace(' HS', ' High School')
+        schoolname = schoolname.replace(' & ', ' and ')
+
+        if schoolname == 'Andover' or 'Phillips Andover' in schoolname:
+            schoolname = 'Phillips Academy'
+        elif schoolname == 'Exeter' or 'Phillips Exeter' in schoolname:
+            schoolname = 'Phillips Exeter Academy'
+        schoolname = schoolname.replace('Thomas Jefferson High School for Science and Technology', 'Thomas Jefferson High School')
+
+        bio += 'Secondary School: ' + title(schoolname) + '. '
 
     # if need to automatically capitalize, then str.title() will work
     if row['Town/City'] != '': 
+        if row['Town/City'].lower() in ['new york city', 'ny', 'nyc']:
+            row['Town/City'] = 'New York'
         bio += 'Hometown: ' + title(row['Town/City']) + ', ' + row['State/Province'] + row['Country'] + '. '
 
     # could be done more efficiently but whatever
@@ -53,7 +83,8 @@ def get_bio_string(row):
     if row['Concentration Type'] == 'Regular':
         bio += row['Concentration']
     elif row['Concentration Type'] == 'Joint':
-        bio += row['Joint Concentration in'] + ' & ' + row['Joint Concentration in {{answer_43710476}} and']
+    	# need to go to Typeform to find this number
+        bio += row['Joint Concentration in'] + ' & ' + row['Joint Concentration in {{answer_44252884}} and']
     else:
         bio += row['Concentration.1']
     bio += '. '
@@ -89,7 +120,7 @@ def get_bio_string(row):
                 .replace(' [PBHA]', '') 
                 for element in ec
                 if '[PBHA]' in element]
-        pbha = [element.replace(' (', ': ') + ',' for element in pbha]
+        pbha = [element.replace(' (', ': ') + ';' for element in pbha]
         pbha = 'Phillips Brooks House Association (' + ' '.join(pbha)[:-1] + '). '
 
         ec_str = ''
@@ -100,12 +131,20 @@ def get_bio_string(row):
                 # do something
             else:
                 # fix Elena's problems
-                if element == 'Harvard Crimson':
-                    element = 'The Harvard Crimson'
-                if element == 'Harvard Yearbook Publications, Inc.':
-                    element = 'Harvard Yearbook Publications'           
+                if element.startswith('Harvard Crimson'):
+                    element = element.replace('Harvard Crimson', 'The Harvard Crimson')
+                if 'Harvard Crimson' in element:
+                    element = element.replace('Associate Editor', '')         
+                element = element.replace('Harvard Yearbook Publications, Inc.', 'Harvard Yearbook Publications')
+                if element.startswith('Intramurals'):
+                    element = element.replace('House ', '')
+                    for house in houses:
+                        element = element.replace(house + ' ', '')
+
+
                 ec_str += element + '. '
             
+        ec_str = ec_str.replace('  ', ' ')
         ec_str = remove_brackets(ec_str)
         bio += ec_str
     return bio[:525]

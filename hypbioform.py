@@ -86,7 +86,8 @@ def get_bio_string(row):
         bio += row['Concentration']
     elif row['Concentration Type'] == 'Joint':
         # need to go to Typeform to find this number
-        bio += row['Joint Concentration in'] + ' & ' + row['Joint Concentration in {{answer_44252884}} and']
+        print row
+        bio += row['Joint Concentration in'] + ' & ' + row['Joint Concentration in {{answer_44252884}} and']
     else:
         bio += row['Concentration.1']
     bio += '. '

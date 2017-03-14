@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 
+from datetime import datetime
 from io import StringIO
 import numpy as np
 import pandas as pd
 import os
 import re
-import time
 from requests import session
 
 payload = {
@@ -46,8 +46,9 @@ def get_full_name(row):
 def get_bio_string(row):
     bio = ''
     if row['Date of Birth']:
-        birthdate = time.strptime(row['Date of Birth'], '%Y-%m-%d')
-        print birthdate
+        birthdate = datetime.strptime(row['Date of Birth'], '%Y-%m-%d')
+        if birthdate.year < 1900:
+        	birthdate.tm_year = 1900
         birthdate = time.strftime('%B %-d, %Y', birthdate)
         # birthdate.replace(' 0', ' ')
         bio += 'Born on: {}. '.format(birthdate)

@@ -23,9 +23,9 @@ def remove_brackets(string):
     return re.sub('[ ][\[].*?[\]]', '', string)
 
 def title(string):
-	string = string.title()
-	for word in ['and', 'the', 'in', 'of', 'on', 'at', 'by', 'to', 'off', 'for', 'between', 'with', 'through', 'out', 'a', 'an']:
-		string = string.replace(' %s ' %word.capitalize(), ' %s ' %word)
+    string = string.title()
+    for word in ['and', 'the', 'in', 'of', 'on', 'at', 'by', 'to', 'off', 'for', 'between', 'with', 'through', 'out', 'a', 'an']:
+        string = string.replace(' {} '.format(word.capitalize()), ' {} '.format(word))
     return string
 
 def get_full_name(row):
@@ -49,7 +49,7 @@ def get_bio_string(row):
         birthdate = time.strptime(row['Date of Birth'], '%Y-%m-%d')
         birthdate = time.strftime('%B %-d, %Y', birthdate)
         # birthdate.replace(' 0', ' ')
-        bio += 'Born on: ' + birthdate + '. '
+        bio += 'Born on: {}. '.format(birthdate)
 
     if row['Secondary School Name'] != '':
         schoolname = row['Secondary School Name']
@@ -85,7 +85,7 @@ def get_bio_string(row):
     if row['Concentration Type'] == 'Regular':
         bio += row['Concentration']
     elif row['Concentration Type'] == 'Joint':
-    	# need to go to Typeform to find this number
+        # need to go to Typeform to find this number
         bio += row['Joint Concentration in'] + ' & ' + row['Joint Concentration in {{answer_44252884}} and']
     else:
         bio += row['Concentration.1']
@@ -103,12 +103,9 @@ def get_bio_string(row):
 
     # extracurriculars
     ec_list = list(row.select(lambda x: x.startswith('Activity') or x.startswith('Officer/Leadership Position')))
-    # ec = [row['Intercollegiate Sports'], row['House Activities'], row['Harvard Activities'], row['Club Sports']]
+
     if ec_list != []:
         ec = []
-        # ec = ' '.join(ec).strip()
-        # ec = ec.strip()[10:-1].split('; Activity: ')
-        # ec = [activity.replace(', Officer/Leadership Position: ', ' (').strip() + ')' for activity in ec]
 
         for i in xrange(0, len(ec_list), 2):
             if ec_list[i] and ec_list[i + 1]:

@@ -117,7 +117,7 @@ def get_bio_string(row):
                 ec.append(ec_list[i])
 
         # PBHA processing
-        pbha = [element.replace('PBHA (', '')
+        pbha = [element.replace('PBHA (', '').replace('Phillips Brooks House Association (', '')
                 .replace(')', '')
                 .replace(' [PBHA]', '') 
                 for element in ec

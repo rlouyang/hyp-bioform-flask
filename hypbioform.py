@@ -87,7 +87,7 @@ def get_bio_string(row):
     elif row['Concentration Type'] == 'Joint':
         # need to go to Typeform to find this number
         print row
-        bio += row['Joint Concentration in'] + ' & ' + row['Joint Concentration in {{answer_44252884}} and']
+        bio += row['Joint Concentration in'] + ' & ' + row['Joint Concentration in {{answer_44252884}} and']
     else:
         bio += row['Concentration.1']
     bio += '. '
@@ -166,7 +166,7 @@ def download_seniors():
         c.post('https://admin.typeform.com/login_check', data=payload)
         response = c.get('https://admin.typeform.com/form/3146280/analyze/csv')
             
-    seniors = pd.read_csv(StringIO(response.text), dtype=str)
+    seniors = pd.read_csv(StringIO(response.text), dtype=str, encoding='utf-8')
 
     # replace all NaNs
     seniors = seniors.fillna('')
@@ -213,7 +213,7 @@ def get_groups():
         c.post('https://admin.typeform.com/login_check', data=payload)
         response = c.get('https://admin.typeform.com/form/3146326/analyze/csv')
 
-    groups = pd.read_csv(StringIO(response.text), dtype=str)
+    groups = pd.read_csv(StringIO(response.text), dtype=str, encoding='utf-8')
 
     # replace all NaNs
     groups = groups.fillna('')

@@ -49,7 +49,7 @@ def get_bio_string(row):
         birthdate = datetime.strptime(row['Date of Birth'], '%Y-%m-%d')
         if birthdate.year < 1900:
         	birthdate.tm_year = 1900
-        birthdate = time.strftime('%B %-d, %Y', birthdate)
+        birthdate = birthdate.strftime('%B %-d, %Y')
         # birthdate.replace(' 0', ' ')
         bio += 'Born on: {}. '.format(birthdate)
 

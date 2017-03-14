@@ -30,13 +30,13 @@ def title(string):
 
 def get_full_name(row):
     full_name = row['First Name'].title() + ' '
-    if row['Middle Name'] != '':
+    if row['Middle Name']:
         if len(row['Middle Name']) == 1:
             full_name += row['Middle Name'] + '. '
         else:
             full_name += row['Middle Name'] + ' '
     full_name += row['Last Name']
-    if row['Suffix'] != '':
+    if row['Suffix']:
         if 'J' in row['Suffix']:
             full_name += ', Jr.'# + row['Suffix']
         else:
@@ -45,13 +45,13 @@ def get_full_name(row):
 
 def get_bio_string(row):
     bio = ''
-    if row['Date of Birth'] != '':
+    if row['Date of Birth']:
         birthdate = time.strptime(row['Date of Birth'], '%Y-%m-%d')
         birthdate = time.strftime('%B %-d, %Y', birthdate)
         # birthdate.replace(' 0', ' ')
         bio += 'Born on: {}. '.format(birthdate)
 
-    if row['Secondary School Name'] != '':
+    if row['Secondary School Name']:
         schoolname = row['Secondary School Name']
         # bunch of rules
         if schoolname.startswith('The '):
@@ -73,7 +73,7 @@ def get_bio_string(row):
         bio += 'Secondary School: ' + title(schoolname) + '. '
 
     # if need to automatically capitalize, then str.title() will work
-    if row['Town/City'] != '': 
+    if row['Town/City']: 
         if row['Town/City'].lower() in ['new york city', 'ny', 'nyc']:
             row['Town/City'] = 'New York'
         if row['Country'].lower() in ['u.k.', 'uk', 'northern ireland', 'scotland', 'wales', 'england']:
@@ -92,7 +92,7 @@ def get_bio_string(row):
         bio += row['Concentration.1']
     bio += '. '
 
-    if row['Secondary Field'] != '':
+    if row['Secondary Field']:
         bio += 'Secondary Field: ' + row['Secondary Field'] + '. '
 
     for prize in ['Detur Prize', 
@@ -105,7 +105,7 @@ def get_bio_string(row):
     # extracurriculars
     ec_list = list(row.select(lambda x: x.startswith('Activity') or x.startswith('Officer/Leadership Position')))
 
-    if ec_list != []:
+    if ec_list:
         ec = []
 
         for i in xrange(0, len(ec_list), 2):

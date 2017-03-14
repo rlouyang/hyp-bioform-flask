@@ -47,6 +47,7 @@ def get_bio_string(row):
     bio = ''
     if row['Date of Birth']:
         birthdate = time.strptime(row['Date of Birth'], '%Y-%m-%d')
+        print birthdate
         birthdate = time.strftime('%B %-d, %Y', birthdate)
         # birthdate.replace(' 0', ' ')
         bio += 'Born on: {}. '.format(birthdate)
@@ -86,7 +87,6 @@ def get_bio_string(row):
         bio += row['Concentration']
     elif row['Concentration Type'] == 'Joint':
         # need to go to Typeform to find this number
-        print row
         bio += row['Joint Concentration in'] + ' & ' + row['Joint Concentration in {{answer_44252884}} and']
     else:
         bio += row['Concentration.1']

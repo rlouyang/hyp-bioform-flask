@@ -23,9 +23,11 @@ def remove_brackets(string):
     return re.sub('[ ][\[].*?[\]]', '', string)
 
 def title(string):
-    string = string.title()
+	# capitalize first letter very carefully
+    string = ' '.join(word[0].upper() + word[1:] for word in string.split())
     for word in ['and', 'the', 'in', 'of', 'on', 'at', 'by', 'to', 'off', 'for', 'between', 'with', 'through', 'out', 'a', 'an']:
         string = string.replace(' {} '.format(word.capitalize()), ' {} '.format(word))
+    string = string[0].upper() + string[1:]
     return string
 
 def get_full_name(row):
@@ -40,7 +42,7 @@ def get_full_name(row):
         if 'J' in row['Suffix']:
             full_name += ', Jr.'# + row['Suffix']
         else:
-            full_name += row['Suffix']
+            full_name += ' ' + row['Suffix']
     return full_name   
 
 def get_bio_string(row):
@@ -154,7 +156,7 @@ def get_bio_string(row):
 def get_senior_info(row):
     new_info = [get_full_name(row), 
                 get_bio_string(row), 
-                row['House'], 
+                row['House'][:-6], 
                 row['First Name'], 
                 row['Last Name'],
                 row['Email'],

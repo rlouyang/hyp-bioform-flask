@@ -68,6 +68,9 @@ def get_bio_string(row):
         schoolname = schoolname.replace('Mount ', 'Mt. ')
         schoolname = schoolname.replace(' HS', ' High School')
         schoolname = schoolname.replace(' & ', ' and ')
+        schoolname = schoolname.replace(' HS', ' High School')
+        schoolname = schoolname.replace(' H.S.', ' High School')
+        schoolname = schoolname.replace(' H. S.', ' High School')
 
         if schoolname == 'Andover' or 'Phillips Andover' in schoolname:
             schoolname = 'Phillips Academy'
@@ -139,7 +142,9 @@ def get_bio_string(row):
                 if element.startswith('Harvard Crimson'):
                     element = element.replace('Harvard Crimson', 'The Harvard Crimson')
                 if 'Harvard Crimson' in element:
-                    element = element.replace('Associate Editor', '')         
+                    element = element.replace(' (Associate Editor)', '') 
+                    element = element.replace(', Associate Editor', '') 
+                    element = element.replace('Associate Editor, ', '')         
                 element = element.replace('Harvard Yearbook Publications, Inc.', 'Harvard Yearbook Publications')
                 if element.startswith('Intramurals'):
                     element = element.replace('House ', '')

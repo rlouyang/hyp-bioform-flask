@@ -23,11 +23,12 @@ def remove_brackets(string):
     return re.sub('[ ][\[].*?[\]]', '', string)
 
 def title(string):
-	# capitalize first letter very carefully
-    string = ' '.join(word[0].upper() + word[1:] for word in string.split())
-    for word in ['and', 'the', 'in', 'of', 'on', 'at', 'by', 'to', 'off', 'for', 'between', 'with', 'through', 'out', 'a', 'an']:
-        string = string.replace(' {} '.format(word.capitalize()), ' {} '.format(word))
-    string = string[0].upper() + string[1:]
+	if string:
+		# capitalize first letter very carefully
+	    string = ' '.join(word[0].upper() + word[1:] for word in string.split())
+	    for word in ['and', 'the', 'in', 'of', 'on', 'at', 'by', 'to', 'off', 'for', 'between', 'with', 'through', 'out', 'a', 'an']:
+	        string = string.replace(' {} '.format(word.capitalize()), ' {} '.format(word))
+	    string = string[0].upper() + string[1:]
     return string
 
 def get_full_name(row):

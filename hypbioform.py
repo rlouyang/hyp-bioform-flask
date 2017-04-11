@@ -107,7 +107,8 @@ def get_bio_string(row):
                   'Phi Beta Kappa', 
                   'John Harvard Scholar', 
                   'Harvard College Scholar']:
-        bio += prize + '. '
+        if row[prize]:
+            bio += prize + '. '
 
     # extracurriculars
     activities = ['Varsity Sport', 'House Activity', 'Activity', 'Club Sport', 'Officer/Leadership Position']

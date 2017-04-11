@@ -40,7 +40,7 @@ def get_full_name(row):
             full_name += row['Middle Name'] + ' '
     full_name += row['Last Name']
     if row['Suffix']:
-        if 'J' in row['Suffix']:
+        if 'J' in row['Suffix'].upper():
             full_name += ', Jr.'# + row['Suffix']
         else:
             full_name += ' ' + row['Suffix']

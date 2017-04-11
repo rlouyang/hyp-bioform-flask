@@ -8,6 +8,9 @@ import os
 import re
 from requests import session
 
+# UTC times
+SENIOR_BIOFORM_OPEN_DATE = '2017-04-01 00:00:00'
+
 payload = {
         'action': 'btnlogin',
         '_username': os.environ['TYPEFORM_USERNAME'],
@@ -179,6 +182,9 @@ def download_seniors():
             
     seniors = pd.read_csv(StringIO(response.text), dtype=str, encoding='utf-8')
 
+    # keep only this year's bioforms
+    seniors = seniors[seniors['Start Date (UTC)'] > SENIOR_BIOFORM_OPEN_DATE]
+
     # replace all NaNs
     seniors = seniors.fillna('')
 
@@ -225,6 +231,9 @@ def get_groups():
         response = c.get('https://admin.typeform.com/form/3146326/analyze/csv')
 
     groups = pd.read_csv(StringIO(response.text), dtype=str, encoding='utf-8')
+
+    # keep only this year's bioforms
+    groups = groups[groups['Start Date (UTC)'] > SENIOR_BIOFORM_OPEN_DATE]
 
     # replace all NaNs
     groups = groups.fillna('')

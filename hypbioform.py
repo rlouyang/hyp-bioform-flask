@@ -246,7 +246,7 @@ def get_groups():
 
     # # drop duplicates (overrides with most recent submission)
     # groups = groups.drop_duplicates(subset=['First Name', 'Middle Name', 'Last Name'], keep='last')
-
+    print groups
     # construct output row
     groups = groups.apply(get_groups_info, axis=1)
     groups.columns = ['name', 'blurb', 'officers', 'time_submit']

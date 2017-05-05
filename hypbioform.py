@@ -194,6 +194,9 @@ def download_seniors():
     # drop all the yes/no stuff
     seniors = seniors.select(lambda x: 'Are you in' not in x, axis=1)
 
+    # drop duplicates (overrides with most recent submission)
+    seniors = seniors.drop_duplicates(subset=['First Name', 'Middle Name', 'Last Name'], keep='last')
+
     return seniors
 
 def get_seniors():
@@ -241,8 +244,11 @@ def get_groups():
     # strip all leading and trailing whitespace
     groups = groups.applymap(lambda x: x.strip())
 
+    # # drop duplicates (overrides with most recent submission)
+    # groups = groups.drop_duplicates(subset=['First Name', 'Middle Name', 'Last Name'], keep='last')
+
     # construct output row
-    groups = groups.apply(lambda row: get_groups_info(row), axis=1)
+    groups = groups.apply(get_groups_info, axis=1)
     groups.columns = ['name', 'blurb', 'officers', 'time_submit']
     
     return groups.to_csv(index_label='id')

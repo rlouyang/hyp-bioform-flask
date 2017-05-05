@@ -203,7 +203,7 @@ def get_seniors():
     seniors = download_seniors()
 
     # construct output row
-    seniors = seniors.apply(lambda row: get_senior_info(row), axis=1)
+    seniors = seniors.apply(get_senior_info, axis=1)
     seniors.columns = ['fullname', 'bio', 'house', 'first_name', 'last_name', 'email', 'time_submitted']
     
     return seniors.to_csv(index_label='id')
@@ -244,9 +244,9 @@ def get_groups():
     # strip all leading and trailing whitespace
     groups = groups.applymap(lambda x: x.strip())
 
-    # # drop duplicates (overrides with most recent submission)
-    # groups = groups.drop_duplicates(subset=['First Name', 'Middle Name', 'Last Name'], keep='last')
-    print groups
+    # drop duplicates (overrides with most recent submission)
+    groups = groups.drop_duplicates(subset=['Group Name'], keep='last')
+    
     # construct output row
     groups = groups.apply(get_groups_info, axis=1)
     groups.columns = ['name', 'blurb', 'officers', 'time_submit']

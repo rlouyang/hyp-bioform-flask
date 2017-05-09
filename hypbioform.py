@@ -195,7 +195,7 @@ def download_seniors():
     seniors = seniors.select(lambda x: 'Are you in' not in x, axis=1)
 
     # drop duplicates (overrides with most recent submission)
-    seniors = seniors.drop_duplicates(subset=['First Name', 'Middle Name', 'Last Name'], keep='last')
+    seniors = seniors.drop_duplicates(subset=['Email'], keep='last')
 
     return seniors
 

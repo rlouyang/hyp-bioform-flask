@@ -74,6 +74,18 @@ def edit_school_name(schoolname):
 
     return schoolname
 
+def edit_city_name(city):
+    if city.lower() in ['new york city', 'ny', 'nyc']:
+        city = 'New York'
+
+    return city
+
+def edit_country_name(country):
+    if country.lower() in ['u.k.', 'uk', 'northern ireland', 'scotland', 'wales', 'england']:
+        country = 'United Kingdom'
+
+    return country
+
 def get_bio_string(row):
     bio = ''
     if row['Date of Birth']:
@@ -91,11 +103,11 @@ def get_bio_string(row):
 
     # if need to automatically capitalize, then str.title() will work
     if row['Town/City']: 
-        if row['Town/City'].lower() in ['new york city', 'ny', 'nyc']:
-            row['Town/City'] = 'New York'
-        if row['Country'].lower() in ['u.k.', 'uk', 'northern ireland', 'scotland', 'wales', 'england']:
-            row['Country'] = 'United Kingdom'
-        bio += 'Hometown: ' + title(row['Town/City']) + ', ' + row['State/Territory'] + title(row['Country']) + '. '
+        city = edit_city_name(row['Town/City'])
+        country = edit_country_name(row['Country'])
+        
+        
+        bio += 'Hometown: ' + title(city) + ', ' + row['State/Territory'] + title(country) + '. '
 
     # could be done more efficiently but whatever
     bio += 'Concentration: ' 

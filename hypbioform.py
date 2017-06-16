@@ -69,7 +69,7 @@ def edit_school_name(schoolname):
     elif schoolname == 'Exeter' or 'Phillips Exeter' in schoolname:
         schoolname = 'Phillips Exeter Academy'
     elif schoolname == 'Collegiate':
-        schoolname - 'Collegiate School'
+        schoolname = 'Collegiate School'
     schoolname = schoolname.replace('Thomas Jefferson High School for Science and Technology', 'Thomas Jefferson High School')
 
     return schoolname

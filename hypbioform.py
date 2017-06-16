@@ -49,6 +49,31 @@ def get_full_name(row):
             full_name += ' ' + row['Suffix']
     return full_name   
 
+def edit_school_name(schoolname):
+    # bunch of rules
+    if schoolname.startswith('The '):
+        schoolname = schoolname.replace('The ', '')
+    schoolname = schoolname.replace(' Junior High School', ' High School')
+    schoolname = schoolname.replace(' Senior High School', ' High School')
+    schoolname = schoolname.replace(' Senior High School', ' High School')
+    schoolname = schoolname.replace('Saint ', 'St. ')
+    schoolname = schoolname.replace('Mount ', 'Mt. ')
+    schoolname = schoolname.replace(' HS', ' High School')
+    schoolname = schoolname.replace(' & ', ' and ')
+    schoolname = schoolname.replace(' HS', ' High School')
+    schoolname = schoolname.replace(' H.S.', ' High School')
+    schoolname = schoolname.replace(' H. S.', ' High School')
+
+    if schoolname == 'Andover' or 'Phillips Andover' in schoolname:
+        schoolname = 'Phillips Academy'
+    elif schoolname == 'Exeter' or 'Phillips Exeter' in schoolname:
+        schoolname = 'Phillips Exeter Academy'
+    elif schoolname == 'Collegiate':
+        schoolname - 'Collegiate School'
+    schoolname = schoolname.replace('Thomas Jefferson High School for Science and Technology', 'Thomas Jefferson High School')
+
+    return schoolname
+
 def get_bio_string(row):
     bio = ''
     if row['Date of Birth']:
@@ -60,26 +85,7 @@ def get_bio_string(row):
         bio += 'Born on: {}. '.format(birthdate)
 
     if row['Secondary School Name']:
-        schoolname = row['Secondary School Name']
-        # bunch of rules
-        if schoolname.startswith('The '):
-            schoolname = schoolname.replace('The ', '')
-        schoolname = schoolname.replace(' Junior High School', ' High School')
-        schoolname = schoolname.replace(' Senior High School', ' High School')
-        schoolname = schoolname.replace(' Senior High School', ' High School')
-        schoolname = schoolname.replace('Saint ', 'St. ')
-        schoolname = schoolname.replace('Mount ', 'Mt. ')
-        schoolname = schoolname.replace(' HS', ' High School')
-        schoolname = schoolname.replace(' & ', ' and ')
-        schoolname = schoolname.replace(' HS', ' High School')
-        schoolname = schoolname.replace(' H.S.', ' High School')
-        schoolname = schoolname.replace(' H. S.', ' High School')
-
-        if schoolname == 'Andover' or 'Phillips Andover' in schoolname:
-            schoolname = 'Phillips Academy'
-        elif schoolname == 'Exeter' or 'Phillips Exeter' in schoolname:
-            schoolname = 'Phillips Exeter Academy'
-        schoolname = schoolname.replace('Thomas Jefferson High School for Science and Technology', 'Thomas Jefferson High School')
+        schoolname = edit_school_name(row['Secondary School Name'])
 
         bio += 'Secondary School: ' + title(schoolname) + '. '
 

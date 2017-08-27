@@ -132,7 +132,7 @@ def get_bio_string(row):
             bio += prize + '. '
 
     # extracurriculars
-    activities = ['Varsity Sport', 'House Activity', 'Activity', 'Club Sport', 'Officer/Leadership Position']
+    activities = ['Varsity Sport', 'House Activity', 'Activity', 'Club Sport', 'Officer/Leadership Position', 'On-Campus Job', 'Lab Name']
     ec_list = list(row.select(lambda x: x.split('.')[0] in activities))
 
     if ec_list:
@@ -210,7 +210,7 @@ def download_seniors():
     seniors = seniors.applymap(lambda x: x.strip('. '))
 
     # drop all the yes/no stuff
-    seniors = seniors.select(lambda x: 'Are you in' not in x, axis=1)
+    seniors = seniors.select(lambda x: not x.startswith('Are you '), axis=1)
 
     # drop duplicates (overrides with most recent submission)
     seniors = seniors.drop_duplicates(subset=['Email'], keep='last')

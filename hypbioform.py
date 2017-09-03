@@ -132,7 +132,7 @@ def get_bio_string(row):
             bio += prize + '. '
 
     # extracurriculars
-    activities = ['Varsity Sport', 'House Activity', 'Activity', 'Club Sport', 'Officer/Leadership Position', 'On-Campus Job', 'Lab Name']
+    activities = ['Varsity Sport', 'House Activity', 'Activity', 'Club Sport', 'Officer/Leadership Position', 'On-Campus Job', 'Lab or Department Name']
     ec_list = list(row.select(lambda x: x.split('.')[0] in activities))
 
     if ec_list:

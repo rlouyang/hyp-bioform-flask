@@ -224,7 +224,7 @@ def get_seniors():
     seniors = seniors.apply(get_senior_info, axis=1)
     seniors.columns = ['fullname', 'bio', 'house', 'first_name', 'last_name', 'email', 'time_submitted']
     
-    return seniors.to_csv(index_label='id')
+    return seniors.to_csv(index_label='id', encoding='utf-8')
 #### END SENIORS ####
 
 #### GROUPS ####
@@ -269,7 +269,7 @@ def get_groups():
     groups = groups.apply(get_groups_info, axis=1)
     groups.columns = ['name', 'blurb', 'officers', 'time_submit']
     
-    return groups.to_csv(index_label='id')
+    return groups.to_csv(index_label='id', encoding='utf-8')
 #### END GROUPS ####
 
 #### PROFS ####
@@ -295,7 +295,10 @@ def get_profs():
     profs = process_profs()
     profs.columns = ['first_name', 'last_name', 'email', 'dept']
     
-    return profs.to_csv()   
+    return profs.
+
+
+()   
 
 def get_prof_counts():
 

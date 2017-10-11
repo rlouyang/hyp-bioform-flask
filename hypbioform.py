@@ -295,10 +295,7 @@ def get_profs():
     profs = process_profs()
     profs.columns = ['first_name', 'last_name', 'email', 'dept']
     
-    return profs.
-
-
-()   
+    return profs.to_csv(encoding='utf-8')   
 
 def get_prof_counts():
 

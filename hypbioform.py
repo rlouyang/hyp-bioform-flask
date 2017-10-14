@@ -51,8 +51,6 @@ def get_full_name(row):
 
 def edit_school_name(schoolname):
     # bunch of rules
-    if schoolname.startswith('The '):
-        schoolname = schoolname.replace('The ', '')
     schoolname = schoolname.replace(' Junior High School', ' High School')
     schoolname = schoolname.replace(' Senior High School', ' High School')
     schoolname = schoolname.replace(' Senior High School', ' High School')

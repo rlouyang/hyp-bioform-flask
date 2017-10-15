@@ -108,7 +108,7 @@ def get_bio_string(row):
         bio += 'Hometown: ' + title(city) + ', ' + row['State/Territory'] + title(country) + '. '
 
     # could be done more efficiently but whatever
-    bio += 'Concentration: ' 
+    bio += 'Field of Concentration: ' 
     if row['Concentration Type'] == 'Regular':
         bio += row['Concentration']
     elif row['Concentration Type'] == 'Joint':

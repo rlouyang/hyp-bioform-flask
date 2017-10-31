@@ -300,5 +300,5 @@ def get_prof_counts():
     profs = process_profs()
     prof_counts = profs['last_name'].value_counts()
     
-    return prof_counts.to_csv()
+    return prof_counts.to_csv(encoding='utf-8')
 #### END PROFS ####

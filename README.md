@@ -1,5 +1,6 @@
 # hyp-bioform-flask
-https://github.com/rlouyang/hyp-bioform-formatting
+
+NO LONGER IN USE
 
 A simple Flask app to format HYP bioforms.
 
